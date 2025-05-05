@@ -1,0 +1,5 @@
+{
+    "name":"microscrape",
+    "postCreateCommand": "pip install -r /workspaces/microscrape/requirements.txt",
+    "forwardPorts": [10123]
+}
