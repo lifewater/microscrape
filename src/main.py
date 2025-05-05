@@ -7,8 +7,16 @@ import datetime
 import time
 
 
-GPUs = {}
+# How often promtheus metrics are pushed
 sleep_interval = 1 # In minutes
+
+# Flask Port 
+flask_port = 10123
+
+# Prometheus metrics route
+metrics_route="/metrics"
+
+GPUs = {}
 url = "https://www.microcenter.com/search/search_results.aspx?Ntk=all&sortby=match&N=4294802166&myStore=false&storeid=155&rpp=96"
 headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36'}
 brands = ["ASUS", "Gigabyte", "MSI", "PNY", "Zotac"]
@@ -139,7 +147,7 @@ def prometheus_metrics():
 # --- Flask App ---
 app = Flask(__name__)
 
-@app.route("/metrics")
+@app.route(metrics_route)
 def metrics():
     return Response(prometheus_metrics(), mimetype="text/plain")
 
@@ -149,7 +157,7 @@ def main():
     t = Thread(target=update_metrics, daemon=True)
     t.start()
     #t.join()
-    app.run(host="0.0.0.0", port=10123)
+    app.run(host="0.0.0.0", port=flask_port)
 
 if __name__ == "__main__":
     main()
