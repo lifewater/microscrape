@@ -1,0 +1,9 @@
+version: '3.8'
+
+services:
+  gpu-exporter:
+    build: .
+    container_name: gpu-prometheus-exporter
+    ports:
+      - "10123:10123"
+    restart: unless-stopped
