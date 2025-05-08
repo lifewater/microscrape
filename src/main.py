@@ -9,7 +9,7 @@ import sys
 
 
 # How often promtheus metrics are pushed
-sleep_interval = 1 # In minutes
+sleep_interval = 10 # In minutes
 
 # Flask Port 
 flask_port = 10123
