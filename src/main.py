@@ -5,6 +5,7 @@ import requests
 import re
 import datetime
 import time
+import sys
 
 
 # How often promtheus metrics are pushed
@@ -17,9 +18,10 @@ flask_port = 10123
 metrics_route="/metrics"
 
 GPUs = {}
-url = "https://www.microcenter.com/search/search_results.aspx?Ntk=all&sortby=match&N=4294802166&myStore=false&storeid=155&rpp=96"
+nvidia_url = "https://www.microcenter.com/search/search_results.aspx?Ntk=all&sortby=match&N=4294802166&myStore=false&storeid=155&rpp=96"
+radeon_url = "https://www.microcenter.com/search/search_results.aspx?Ntk=all&sortby=match&N=4294802072&myStore=false&storeid=155&rpp=96"
 headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36'}
-brands = ["ASUS", "Gigabyte", "MSI", "PNY", "Zotac"]
+brands = ["ASRock", "ASUS", "Gigabyte", "MSI", "PNY", "PowerColor", "Sapphire", "XFX", "Zotac"]
 types = ["RTX 5090", "RTX 5080", "RTX 5070 Ti", "RTX 5060 Ti", "RTX 5070","RTX 5060"]
 
 def get_html(url: str):
@@ -32,9 +34,9 @@ def get_titles(html: BeautifulSoup):
     elements = html.find_all(class_='detail_wrapper')
     for element in elements:
         tmp=element.find("a").string
-        title = re.sub(r"NVIDIA |GeForce |GDDR7|PCIe 5.0|Graphics Card", "", tmp.text).strip()
+        title = re.sub(r"NVIDIA |AMD |GeForce |Radeon |GDDR7|GDDR6|PCIe 5.0|Graphics Card", "", tmp.text).strip()
         titles.append(title)
-    #print (f"titles: {titles}")
+    print (f"titles: {titles}")
     return titles
 
 def get_sku(html: BeautifulSoup):
@@ -97,11 +99,17 @@ def update_metrics():
             sleep_until(sleep_interval)
 
             print(f"Started: {datetime.datetime.now()}")
-            html = get_html(url)
-            titles = get_titles(html)
-            skus = get_sku(html)
-            stocks = get_stock(html)
-            prices = get_prices(html)
+            nvidia_html = get_html(nvidia_url)
+            titles = get_titles(nvidia_html)
+            skus = get_sku(nvidia_html)
+            stocks = get_stock(nvidia_html)
+            prices = get_prices(nvidia_html)
+
+            radeon_html = get_html(radeon_url)
+            titles.extend(get_titles(radeon_html))
+            skus.extend(get_sku(radeon_html))
+            stocks.extend(get_stock(radeon_html))
+            prices.extend(get_prices(radeon_html))
             print(F"{len(titles)} titles found")
 
             for idx, title in enumerate(titles):
@@ -131,8 +139,8 @@ def update_metrics():
                     }
             print(f"Ended: {datetime.datetime.now()}")
             #for idx, title in enumerate(titles):
-                #print (f"Title: {title}")
-                #print (f"After: {GPUs[skus[idx]]['brand']} {GPUs[skus[idx]]['type']} {GPUs[skus[idx]]['model']} {GPUs[skus[idx]]['ram']}, Stock: {GPUs[skus[idx]]['stock']}, Price: {GPUs[skus[idx]]['price']}")
+            #    print (f"Title: {title}")
+            #    print (f"After: {GPUs[skus[idx]]['brand']} {GPUs[skus[idx]]['type']} {GPUs[skus[idx]]['model']} {GPUs[skus[idx]]['ram']}, Stock: {GPUs[skus[idx]]['stock']}, Price: {GPUs[skus[idx]]['price']}")
         except Exception as e:
             print(f"Error updating metrics: {e}")
 
