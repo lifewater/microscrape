@@ -34,7 +34,7 @@ def get_titles(html: BeautifulSoup):
     elements = html.find_all(class_='detail_wrapper')
     for element in elements:
         tmp=element.find("a").string
-        title = re.sub(r"NVIDIA |AMD |GeForce |Radeon |GDDR7|GDDR6|PCIe 5.0|Graphics Card", "", tmp.text).strip()
+        title = re.sub(r"NVIDIA |AMD |GeForce |Radeon |GDDR7|GDDR6|PCIe 4.0|PCIe 5.0|Graphics Card", "", tmp.text).strip()
         titles.append(title)
     print (f"titles: {titles}")
     return titles
@@ -104,7 +104,7 @@ def update_metrics():
             skus = get_sku(nvidia_html)
             stocks = get_stock(nvidia_html)
             prices = get_prices(nvidia_html)
-
+            time.sleep(5)
             radeon_html = get_html(radeon_url)
             titles.extend(get_titles(radeon_html))
             skus.extend(get_sku(radeon_html))
