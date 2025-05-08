@@ -21,8 +21,8 @@ GPUs = {}
 nvidia_url = "https://www.microcenter.com/search/search_results.aspx?Ntk=all&sortby=match&N=4294802166&myStore=false&storeid=155&rpp=96"
 radeon_url = "https://www.microcenter.com/search/search_results.aspx?Ntk=all&sortby=match&N=4294802072&myStore=false&storeid=155&rpp=96"
 headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36'}
-brands = ["ASRock", "ASUS", "Gigabyte", "MSI", "PNY", "PowerColor", "Sapphire", "XFX", "Zotac"]
-types = ["RTX 5090", "RTX 5080", "RTX 5070 Ti", "RTX 5060 Ti", "RTX 5070","RTX 5060"]
+brands = ["ASRock", "ASUS", "Gigabyte", "MSI", "PNY", "PowerColor", "Sapphire", "Sapphire Technology", "XFX", "Zotac"]
+types = ["RTX 5090", "RTX 5080", "RTX 5070 Ti", "RTX 5060 Ti", "RTX 5070","RTX 5060", "RX 9070 XT", "RX 9070"]
 
 def get_html(url: str):
     page = requests.get(url, headers=headers)
@@ -138,9 +138,10 @@ def update_metrics():
                     "price": price
                     }
             print(f"Ended: {datetime.datetime.now()}")
-            #for idx, title in enumerate(titles):
-            #    print (f"Title: {title}")
-            #    print (f"After: {GPUs[skus[idx]]['brand']} {GPUs[skus[idx]]['type']} {GPUs[skus[idx]]['model']} {GPUs[skus[idx]]['ram']}, Stock: {GPUs[skus[idx]]['stock']}, Price: {GPUs[skus[idx]]['price']}")
+            for idx, title in enumerate(titles):
+                print (f"Title: {title}")
+                print (f"After: {GPUs[skus[idx]]['brand']}, {GPUs[skus[idx]]['type']}, {GPUs[skus[idx]]['model']}, {GPUs[skus[idx]]['ram']}, Stock: {GPUs[skus[idx]]['stock']}, Price: {GPUs[skus[idx]]['price']}")
+            sys.exit(0)
         except Exception as e:
             print(f"Error updating metrics: {e}")
 
