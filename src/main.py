@@ -104,7 +104,7 @@ def update_metrics():
             skus = get_sku(nvidia_html)
             stocks = get_stock(nvidia_html)
             prices = get_prices(nvidia_html)
-
+            time.sleep(5)
             radeon_html = get_html(radeon_url)
             titles.extend(get_titles(radeon_html))
             skus.extend(get_sku(radeon_html))
