@@ -34,7 +34,7 @@ def get_titles(html: BeautifulSoup):
     elements = html.find_all(class_='detail_wrapper')
     for element in elements:
         tmp=element.find("a").string
-        title = re.sub(r"NVIDIA |AMD |GeForce |Radeon |GDDR7|GDDR6|PCIe 5.0|Graphics Card", "", tmp.text).strip()
+        title = re.sub(r"NVIDIA |AMD |GeForce |Radeon |GDDR7|GDDR6|PCIe 4.0|PCIe 5.0|Graphics Card", "", tmp.text).strip()
         titles.append(title)
     print (f"titles: {titles}")
     return titles
