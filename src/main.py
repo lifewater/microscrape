@@ -17,9 +17,10 @@ flask_port = 10123
 metrics_route="/metrics"
 
 GPUs = {}
-url = "https://www.microcenter.com/search/search_results.aspx?Ntk=all&sortby=match&N=4294802166&myStore=false&storeid=155&rpp=96"
+nvidia_url = "https://www.microcenter.com/search/search_results.aspx?Ntk=all&sortby=match&N=4294802166&myStore=false&storeid=155&rpp=96"
+radeon_url = "https://www.microcenter.com/search/search_results.aspx?Ntk=all&sortby=match&N=4294802072&myStore=false&storeid=155&rpp=96"
 headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36'}
-brands = ["ASUS", "Gigabyte", "MSI", "PNY", "Zotac"]
+brands = ["ASRock", "ASUS", "Gigabyte", "MSI", "PNY", "PowerColor", "Sapphire", "XFX", "Zotac"]
 types = ["RTX 5090", "RTX 5080", "RTX 5070 Ti", "RTX 5060 Ti", "RTX 5070","RTX 5060"]
 
 def get_html(url: str):
