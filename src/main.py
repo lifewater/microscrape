@@ -138,9 +138,9 @@ def update_metrics():
                     "price": price
                     }
             print(f"Ended: {datetime.datetime.now()}")
-            #for idx, title in enumerate(titles):
+            for idx, title in enumerate(titles):
             #    print (f"Title: {title}")
-            #    print (f"After: {GPUs[skus[idx]]['brand']}, {GPUs[skus[idx]]['type']}, {GPUs[skus[idx]]['model']}, {GPUs[skus[idx]]['ram']}, Stock: {GPUs[skus[idx]]['stock']}, Price: {GPUs[skus[idx]]['price']}")
+                print (f"After: {GPUs[skus[idx]]['brand']}, {GPUs[skus[idx]]['type']}, {GPUs[skus[idx]]['model']}, {GPUs[skus[idx]]['ram']}, Stock: {GPUs[skus[idx]]['stock']}, Price: {GPUs[skus[idx]]['price']}")
         except Exception as e:
             print(f"Error updating metrics: {e}")
 
@@ -169,5 +169,4 @@ def main():
 
 if __name__ == "__main__":
     main()
-
 
