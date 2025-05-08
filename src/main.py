@@ -5,6 +5,7 @@ import requests
 import re
 import datetime
 import time
+import sys
 
 
 # How often promtheus metrics are pushed
@@ -33,9 +34,10 @@ def get_titles(html: BeautifulSoup):
     elements = html.find_all(class_='detail_wrapper')
     for element in elements:
         tmp=element.find("a").string
-        title = re.sub(r"NVIDIA |GeForce |GDDR7|PCIe 5.0|Graphics Card", "", tmp.text).strip()
+        title = re.sub(r"NVIDIA |GeForce |Radeon |GDDR7|GDDR6|PCIe 5.0|Graphics Card", "", tmp.text).strip()
         titles.append(title)
-    #print (f"titles: {titles}")
+    print (f"titles: {titles}")
+    sys.exit(0)
     return titles
 
 def get_sku(html: BeautifulSoup):
