@@ -36,7 +36,7 @@ def get_titles(html: BeautifulSoup):
         tmp=element.find("a").string
         title = re.sub(r"NVIDIA |AMD |GeForce |Radeon |GDDR7|GDDR6|PCIe 4.0|PCIe 5.0|Graphics Card", "", tmp.text).strip()
         titles.append(title)
-    print (f"titles: {titles}")
+    #print (f"titles: {titles}")
     return titles
 
 def get_sku(html: BeautifulSoup):
@@ -137,10 +137,12 @@ def update_metrics():
                     "ram": ram,
                     "price": price
                     }
-            print(f"Ended: {datetime.datetime.now()}")
+            
+            print("Printing titles found:")
             for idx, title in enumerate(titles):
             #    print (f"Title: {title}")
                 print (f"After: {GPUs[skus[idx]]['brand']}, {GPUs[skus[idx]]['type']}, {GPUs[skus[idx]]['model']}, {GPUs[skus[idx]]['ram']}, Stock: {GPUs[skus[idx]]['stock']}, Price: {GPUs[skus[idx]]['price']}")
+            print(f"Ended: {datetime.datetime.now()}")
         except Exception as e:
             print(f"Error updating metrics: {e}")
 
