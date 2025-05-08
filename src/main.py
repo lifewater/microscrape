@@ -34,10 +34,9 @@ def get_titles(html: BeautifulSoup):
     elements = html.find_all(class_='detail_wrapper')
     for element in elements:
         tmp=element.find("a").string
-        title = re.sub(r"NVIDIA |GeForce |Radeon |GDDR7|GDDR6|PCIe 5.0|Graphics Card", "", tmp.text).strip()
+        title = re.sub(r"NVIDIA |AMD |GeForce |Radeon |GDDR7|GDDR6|PCIe 5.0|Graphics Card", "", tmp.text).strip()
         titles.append(title)
     print (f"titles: {titles}")
-    sys.exit(0)
     return titles
 
 def get_sku(html: BeautifulSoup):
@@ -100,11 +99,17 @@ def update_metrics():
             sleep_until(sleep_interval)
 
             print(f"Started: {datetime.datetime.now()}")
-            html = get_html(url)
-            titles = get_titles(html)
-            skus = get_sku(html)
-            stocks = get_stock(html)
-            prices = get_prices(html)
+            nvidia_html = get_html(nvidia_url)
+            titles = get_titles(nvidia_html)
+            skus = get_sku(nvidia_html)
+            stocks = get_stock(nvidia_html)
+            prices = get_prices(nvidia_html)
+
+            radeon_html = get_html(radeon_url)
+            titles.extend(get_titles(radeon_html))
+            skus.extend(get_sku(radeon_html))
+            stocks.extend(get_stock(radeon_html))
+            prices.extend(get_prices(radeon_html))
             print(F"{len(titles)} titles found")
 
             for idx, title in enumerate(titles):
@@ -134,8 +139,8 @@ def update_metrics():
                     }
             print(f"Ended: {datetime.datetime.now()}")
             #for idx, title in enumerate(titles):
-                #print (f"Title: {title}")
-                #print (f"After: {GPUs[skus[idx]]['brand']} {GPUs[skus[idx]]['type']} {GPUs[skus[idx]]['model']} {GPUs[skus[idx]]['ram']}, Stock: {GPUs[skus[idx]]['stock']}, Price: {GPUs[skus[idx]]['price']}")
+            #    print (f"Title: {title}")
+            #    print (f"After: {GPUs[skus[idx]]['brand']} {GPUs[skus[idx]]['type']} {GPUs[skus[idx]]['model']} {GPUs[skus[idx]]['ram']}, Stock: {GPUs[skus[idx]]['stock']}, Price: {GPUs[skus[idx]]['price']}")
         except Exception as e:
             print(f"Error updating metrics: {e}")
 
