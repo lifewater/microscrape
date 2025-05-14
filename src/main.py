@@ -149,7 +149,7 @@ def update_metrics():
 def prometheus_metrics():
     lines = []
     for sku, data in GPUs.items():
-        labels = f'brand={data["brand"]},type={data["type"]},model={data["model"]},ram={data["ram"]},sku="{sku}"'
+        labels = f'brand={data["brand"]},type={data["type"]},model={data["model"]},ram={data["ram"]},sku={sku}'
         lines.append(f'gpu_stock{{{labels}}} {data["stock"]}')
         lines.append(f'gpu_price{{{labels}}} {data["price"]}')
     return "\n".join(lines) + "\n"
