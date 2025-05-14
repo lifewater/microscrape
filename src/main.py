@@ -141,7 +141,7 @@ def update_metrics():
             print("Printing titles found:")
             for idx, title in enumerate(titles):
             #    print (f"Title: {title}")
-                print (f"After: {GPUs[skus[idx]]['brand']}, {GPUs[skus[idx]]['type']}, {GPUs[skus[idx]]['model']}, {GPUs[skus[idx]]['ram']}, Stock: {GPUs[skus[idx]]['stock']}, Price: {GPUs[skus[idx]]['price']}")
+                print (f"{GPUs[skus[idx]]['type']}, {GPUs[skus[idx]]['ram']}, {GPUs[skus[idx]]['brand']},  {GPUs[skus[idx]]['model']},  Stock: {GPUs[skus[idx]]['stock']}, Price: {GPUs[skus[idx]]['price']}")
             print(f"Ended: {datetime.datetime.now()}")
         except Exception as e:
             print(f"Error updating metrics: {e}")
@@ -149,7 +149,7 @@ def update_metrics():
 def prometheus_metrics():
     lines = []
     for sku, data in GPUs.items():
-        labels = f'brand={data["brand"]},type={data["type"]},model={data["model"]},ram={data["ram"]},sku={sku}'
+        labels = f'sku={sku},type={data["type"]},ram={data["ram"]},brand={data["brand"]},model={data["model"]},'
         lines.append(f'gpu_stock{{{labels}}} {data["stock"]}')
         lines.append(f'gpu_price{{{labels}}} {data["price"]}')
     return "\n".join(lines) + "\n"
