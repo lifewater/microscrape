@@ -25,9 +25,16 @@ brands = ["ASRock", "ASUS", "Gigabyte", "MSI", "PNY", "PowerColor", "Sapphire Te
 types = ["RTX 5090", "RTX 5080", "RTX 5070 Ti", "RTX 5060 Ti", "RTX 5070","RTX 5060", "RX 9070 XT", "RX 9070"]
 
 def get_html(url: str):
-    page = requests.get(url, headers=headers)
-    print (f"Response: {page.status_code}")
-    return BeautifulSoup(page.text, "html.parser")
+    try:
+        page = requests.get(url, headers=headers, timeout=10)
+        print (f"Response: {page.status_code}")
+        return BeautifulSoup(page.text, "html.parser")
+    except requests.Timeout:
+        print(f"Response: TIMEOUT when fetching {url}")
+    except Exception as e:
+        print(f"Response: ERROR Fetching {url}")
+        print(f"Error message: {e}")
+    return None
 
 def get_titles(html: BeautifulSoup):
     titles = []
@@ -100,12 +107,20 @@ def update_metrics():
 
             print(f"Started: {datetime.datetime.now()}")
             nvidia_html = get_html(nvidia_url)
+            if nvidia_html is None:
+                print ("Failed to fetch NVIDIA data, skipping this polling interval")
+                continue
             titles = get_titles(nvidia_html)
             skus = get_sku(nvidia_html)
             stocks = get_stock(nvidia_html)
             prices = get_prices(nvidia_html)
+
             time.sleep(5)
+
             radeon_html = get_html(radeon_url)
+            if radeon_html is None:
+                print ("Failed to fetch Radeon data, skipping this polling interval")
+                continue
             titles.extend(get_titles(radeon_html))
             skus.extend(get_sku(radeon_html))
             stocks.extend(get_stock(radeon_html))
