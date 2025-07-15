@@ -3,7 +3,7 @@ FROM python:3.11-slim
 # Prevent .pyc files and buffering stdout/stderr
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
-
+ENV TZ="America/Chicago"
 WORKDIR /app
 
 COPY requirements.txt /app/requirements.txt
