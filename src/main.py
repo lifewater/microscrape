@@ -22,7 +22,7 @@ nvidia_url = "https://www.microcenter.com/search/search_results.aspx?Ntk=all&sor
 radeon_url = "https://www.microcenter.com/search/search_results.aspx?Ntk=all&sortby=match&N=4294802072&myStore=false&storeid=155&rpp=96"
 headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36'}
 brands = ["ASRock", "ASUS", "Gigabyte", "MSI", "PNY", "PowerColor", "Sapphire Technology", "Sapphire", "XFX", "Zotac"]
-types = ["RTX 5090", "RTX 5080", "RTX 5070 Ti", "RTX 5060 Ti", "RTX 5070","RTX 5060", "RX 9070 XT", "RX 9070"]
+types = ["RTX 5090", "RTX 5080", "RTX 5070 Ti", "RTX 5060 Ti", "RTX 5070","RTX 5060", "RX 9070 XT", "RX 9060 XT", "RX 9070"]
 
 def get_html(url: str):
     try:
@@ -125,7 +125,7 @@ def update_metrics():
             skus.extend(get_sku(radeon_html))
             stocks.extend(get_stock(radeon_html))
             prices.extend(get_prices(radeon_html))
-            print(F"{len(titles)} titles found")
+            print(f"{len(titles)} titles found")
 
             for idx, title in enumerate(titles):
                 sku = skus[idx]
